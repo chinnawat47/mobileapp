@@ -1,9 +1,9 @@
 //import 'package:app01_test1/ui/ScreenC.dart';
 import 'package:flutter/material.dart';
 
-import 'ScreenA.dart';
-import 'ScreenB.dart';
-import 'ScreenC.dart';
+import 'package:hello_app/ch3/Popup/ScreenA.dart';
+import 'package:hello_app/ch3/Popup/ScreenB.dart';
+import 'package:hello_app/ch3/Popup/ScreenC.dart';
 
 class MyTabBar extends StatelessWidget {
   const MyTabBar({super.key});

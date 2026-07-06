@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hello_app/pages/register_page.dart';
-import 'package:hello_app/pages/result_page.dart';
+import 'package:hello_app/ui/register_page.dart';
+import 'package:hello_app/ui/result_page.dart';
 import 'package:hello_app/models/register_data.dart';
 
 void main() {

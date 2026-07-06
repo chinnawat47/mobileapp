@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'pages/home_template_page.dart';
-import 'theme/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:hello_app/ui/home_template_page.dart';
+import 'package:hello_app/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e, st) {
+    // Initialization can fail on unsupported platforms or misconfiguration.
+    // Log the error and continue; Firestore calls will surface errors to the UI.
+    debugPrint('Firebase.initializeApp error: $e');
+    debugPrint('$st');
+  }
+
   runApp(const MyApp());
 }
 

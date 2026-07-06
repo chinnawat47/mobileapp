@@ -136,7 +136,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
                       return ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: isDeposit ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+                          backgroundColor: isDeposit ? Colors.green.withAlpha(26) : Colors.red.withAlpha(26),
                           child: Icon(
                             isDeposit ? Icons.arrow_downward : Icons.arrow_upward,
                             color: isDeposit ? Colors.green : Colors.red,

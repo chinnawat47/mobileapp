@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'data/UserParam.dart';
+import 'package:hello_app/ch4/Navigation/data/UserParam.dart';
 
 class DetailScreen extends StatelessWidget {
   // 1. ประกาศตัวแปรเพื่อรับ Object (ใช้ final)

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'DetailScreen.dart';
-import 'data/UserParam.dart';
+import 'package:hello_app/ch4/Navigation/data/UserParam.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,7 +14,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home Screen')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
