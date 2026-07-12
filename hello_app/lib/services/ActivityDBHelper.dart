@@ -1,40 +1,159 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hello_app/models/Activity.dart';
 
-class ActivityDBHelper {
-  static final FirebaseFirestore getdb = FirebaseFirestore.instance;
 
-  /// Returns a stream of Activity lists. Any FirebaseException thrown by
-  /// Firestore will be forwarded through the stream as an error (no JS
-  /// interop conversions here). We wrap errors to ensure they're Dart
-  /// exceptions and avoid accidental JSObject propagation on web.
+class ActivityDBHelper {
+
+  static final FirebaseFirestore getdb =
+      FirebaseFirestore.instance;
+
+
+
+  // =========================
+  // READ : ดึงข้อมูล Activity
+  // =========================
   static Stream<List<Activity>> getActivitiesStream() {
-    return FirebaseFirestore.instance
+
+    return getdb
         .collection('activity')
         .snapshots()
-        .handleError((error) {
-      // If a FirebaseException reaches here, rethrow as itself so callers
-      // get a predictable Dart type. For web, some errors might be JS
-      // objects; convert to FirebaseException where possible.
-      if (error is FirebaseException) {
-        throw error;
+        .map((snapshot) {
+
+      return snapshot.docs
+          .map((doc) => Activity.fromFirestore(doc))
+          .toList();
+
+    });
+
+  }
+
+
+
+
+  // =========================
+  // CREATE : เพิ่ม Activity
+  // =========================
+  static Future<void> addActivity({
+
+    required String title,
+
+    required String desc,
+
+    required List<dynamic> stdList,
+
+    DateTime? dateFrom,
+
+  }) async {
+
+
+    await getdb
+        .collection('activity')
+        .add({
+
+
+      'title': title,
+
+
+      'desc': desc,
+
+
+      'stdlist': stdList,
+
+
+      'datefrom': dateFrom == null
+          ? null
+          : Timestamp.fromDate(dateFrom),
+
+
+    });
+
+
+  }
+
+
+
+
+
+
+  // =========================
+  // UPDATE : แก้ไข Activity
+  // =========================
+  static Future<void> updateActivity(
+
+      String docId,
+
+      {
+
+      required String title,
+
+      required String desc,
+
+      required List<dynamic> stdList,
+
+      DateTime? dateFrom,
+
       }
 
-      // Try to convert generic errors to FirebaseException-like message
-      throw FirebaseException(plugin: 'cloud_firestore', message: error.toString());
-    }).map((snapshot) {
-      return snapshot.docs.map((doc) => Activity.fromFirestore(doc)).toList();
+      ) async {
+
+
+
+    await getdb
+
+        .collection('activity')
+
+        .doc(docId)
+
+        .update({
+
+
+      'title': title,
+
+
+      'desc': desc,
+
+
+      'stdlist': stdList,
+
+
+      'datefrom': dateFrom == null
+          ? null
+          : Timestamp.fromDate(dateFrom),
+
+
     });
-  } //func
 
-  static Future<void> deleteActivity(String docId) async {
-    try {
-      await FirebaseFirestore.instance.collection("activity").doc(docId).delete();
-    } catch (e) {
-      // Normalize web JS errors to Dart FirebaseException for callers
-      if (e is FirebaseException) rethrow;
-      throw FirebaseException(plugin: 'cloud_firestore', message: e.toString());
-    }
+
+
   }
-} //class
 
+
+
+
+
+
+
+  // =========================
+  // DELETE : ลบ Activity
+  // =========================
+  static Future<void> deleteActivity(
+
+      String docId
+
+      ) async {
+
+
+    await getdb
+
+        .collection('activity')
+
+        .doc(docId)
+
+        .delete();
+
+
+  }
+
+
+
+}
