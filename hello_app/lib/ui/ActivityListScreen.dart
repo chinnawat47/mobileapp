@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:hello_app/models/Activity.dart';
 import 'package:hello_app/services/ActivityDBHelper.dart';
 import 'package:hello_app/ui/ActivityFormScreen.dart';
@@ -9,26 +11,22 @@ class ActivityListScreen extends StatelessWidget {
   const ActivityListScreen({super.key});
 
 
-
-  // DELETE FUNCTION
   Future<void> deleteActivity(
       BuildContext context,
-      String id
+      String id,
       ) async {
-
 
     try {
 
       await ActivityDBHelper.deleteActivity(id);
 
-
-      if(context.mounted){
+      if (context.mounted) {
 
         ScaffoldMessenger.of(context).showSnackBar(
 
           const SnackBar(
             content: Text(
-              'Activity deleted'
+              'Activity deleted',
             ),
           ),
 
@@ -37,16 +35,15 @@ class ActivityListScreen extends StatelessWidget {
       }
 
 
-    } catch(e){
+    } catch (e) {
 
-
-      if(context.mounted){
+      if (context.mounted) {
 
         ScaffoldMessenger.of(context).showSnackBar(
 
           SnackBar(
             content: Text(
-              'Delete error: $e'
+              'Delete error: $e',
             ),
           ),
 
@@ -58,6 +55,84 @@ class ActivityListScreen extends StatelessWidget {
 
   }
 
+
+
+  Future<bool?> confirmDelete(
+      BuildContext context,
+      ) async {
+
+
+    return showDialog<bool>(
+
+      context: context,
+
+      builder: (context) {
+
+
+        return AlertDialog(
+
+          title: const Text(
+              'Delete activity?'
+          ),
+
+
+          content: const Text(
+              'Confirm delete this activity'
+          ),
+
+
+          actions: [
+
+
+            TextButton(
+
+              onPressed: () {
+
+                Navigator.pop(
+                    context,
+                    false
+                );
+
+              },
+
+              child: const Text(
+                  'Cancel'
+              ),
+
+            ),
+
+
+
+            TextButton(
+
+              onPressed: () {
+
+                Navigator.pop(
+                    context,
+                    true
+                );
+
+              },
+
+              child: const Text(
+                  'Delete'
+              ),
+
+            ),
+
+
+          ],
+
+
+        );
+
+
+      },
+
+    );
+
+
+  }
 
 
 
@@ -72,7 +147,7 @@ class ActivityListScreen extends StatelessWidget {
       appBar: AppBar(
 
         title: const Text(
-          'University Activities'
+            'University Activities'
         ),
 
         backgroundColor: Colors.blueGrey,
@@ -84,15 +159,12 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
       body: Container(
 
 
         decoration: BoxDecoration(
 
-
           gradient: LinearGradient(
-
 
             colors: [
 
@@ -102,20 +174,15 @@ class ActivityListScreen extends StatelessWidget {
 
             ],
 
-
           ),
-
 
         ),
 
 
 
-
         child: Padding(
 
-
-          padding:
-          const EdgeInsets.fromLTRB(
+          padding: const EdgeInsets.fromLTRB(
               16,
               24,
               16,
@@ -124,11 +191,9 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
           child: Card(
 
-
-            elevation:6,
+            elevation: 6,
 
 
             shape: RoundedRectangleBorder(
@@ -140,128 +205,63 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
             child: Padding(
-
 
               padding:
               const EdgeInsets.all(16),
 
 
 
-
-
               child: Column(
-
 
                 crossAxisAlignment:
                 CrossAxisAlignment.start,
 
 
+                children: [
 
 
+                  const Row(
 
-                children:[
+                    children: [
 
-
-
-
-                  Row(
-
-
-                    children:[
-
-
-                      Container(
-
-
-                        padding:
-                        const EdgeInsets.all(10),
-
-
-                        decoration:
-                        BoxDecoration(
-
-
-                          color:
-                          Colors.blueGrey.shade50,
-
-
-                          shape:
-                          BoxShape.circle,
-
-
-                        ),
-
-
-
-                        child:
-                        const Icon(
-
-                          Icons.list_alt,
-
-                          size:28,
-
-                          color:Colors.blueGrey,
-
-                        ),
-
-
+                      Icon(
+                        Icons.list_alt,
+                        size: 28,
+                        color: Colors.blueGrey,
                       ),
 
 
-
-
-                      const SizedBox(
-                          width:12
+                      SizedBox(
+                          width: 12
                       ),
 
 
+                      Text(
 
+                        'Activities',
 
-                      const Expanded(
+                        style: TextStyle(
 
+                          fontSize: 20,
 
-                        child:Text(
-
-
-                          'Activities',
-
-
-                          style:TextStyle(
-
-
-                            fontSize:20,
-
-
-                            fontWeight:
-                            FontWeight.bold,
-
-
-                          ),
-
+                          fontWeight:
+                          FontWeight.bold,
 
                         ),
 
-
                       ),
-
-
 
                     ],
 
-
                   ),
-
-
 
 
 
 
                   const SizedBox(
-                      height:12
+                      height: 12
                   ),
-
 
 
 
@@ -269,10 +269,9 @@ class ActivityListScreen extends StatelessWidget {
 
                     'Browse and manage activities',
 
-                    style:
-                    TextStyle(
+                    style: TextStyle(
 
-                      color:Colors.black54,
+                      color: Colors.black54,
 
                     ),
 
@@ -280,24 +279,17 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-
-
                   const SizedBox(
-                      height:12
+                      height: 12
                   ),
-
 
 
 
 
                   Expanded(
 
-
                     child:
                     StreamBuilder<List<Activity>>(
-
-
 
                       stream:
                       ActivityDBHelper
@@ -305,14 +297,12 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
                       builder:
-                          (context,snapshot){
-
+                          (context, snapshot) {
 
 
                         if(snapshot.connectionState ==
-                            ConnectionState.waiting){
+                            ConnectionState.waiting) {
 
 
                           return const Center(
@@ -327,15 +317,14 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-                        if(snapshot.hasError){
+                        if(snapshot.hasError) {
 
 
                           return Center(
 
                             child:
                             Text(
-                              'Error: ${snapshot.error}'
+                                'Error: ${snapshot.error}'
                             ),
 
                           );
@@ -346,16 +335,15 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
                         if(!snapshot.hasData ||
-                            snapshot.data!.isEmpty){
+                            snapshot.data!.isEmpty) {
 
 
                           return const Center(
 
                             child:
                             Text(
-                              'Data not found'
+                                'Data not found'
                             ),
 
                           );
@@ -365,37 +353,27 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-
                         final actlist =
-                            snapshot.data!;
-
+                        snapshot.data!;
 
 
 
                         return ListView.builder(
 
-
-
                           itemCount:
                           actlist.length,
 
 
-
-
                           itemBuilder:
-                              (context,index){
-
+                              (context,index) {
 
 
                             final actItem =
-                                actlist[index];
+                            actlist[index];
 
 
 
-
-                            return Dismissible(
-
+                            return Slidable(
 
 
                               key:
@@ -405,43 +383,116 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-                              direction:
-                              DismissDirection.endToStart,
+                              endActionPane:
 
 
+                              ActionPane(
 
-
-
-                              background:
-                              Container(
-
-
-                                color:
-                                Colors.red,
-
-
-                                alignment:
-                                Alignment.centerRight,
-
-
-                                padding:
-                                const EdgeInsets.only(
-                                    right:20
-                                ),
+                                motion:
+                                const DrawerMotion(),
 
 
 
-                                child:
-                                const Icon(
+                                children: [
 
-                                  Icons.delete,
 
-                                  color:
-                                  Colors.white,
 
-                                ),
+                                  SlidableAction(
 
+                                    onPressed:
+                                        (context) async {
+
+
+                                      final confirm =
+                                      await confirmDelete(
+                                          context
+                                      );
+
+
+                                      if(confirm == true) {
+
+
+                                        deleteActivity(
+                                            context,
+                                            actItem.id
+                                        );
+
+
+                                      }
+
+
+                                    },
+
+
+                                    backgroundColor:
+                                    Colors.red,
+
+
+                                    foregroundColor:
+                                    Colors.white,
+
+
+                                    icon:
+                                    Icons.delete,
+
+
+                                    label:
+                                    'Delete',
+
+                                  ),
+
+
+
+
+                                  SlidableAction(
+
+                                    onPressed:
+                                        (context) {
+
+
+                                      Navigator.push(
+
+                                        context,
+
+                                        MaterialPageRoute(
+
+                                          builder:
+                                              (context) =>
+
+                                              ActivityFormScreen(
+
+                                                activity:
+                                                actItem,
+
+                                              ),
+
+                                        ),
+
+                                      );
+
+
+                                    },
+
+
+                                    backgroundColor:
+                                    Colors.blueGrey,
+
+
+                                    foregroundColor:
+                                    Colors.white,
+
+
+                                    icon:
+                                    Icons.edit,
+
+
+                                    label:
+                                    'Edit',
+
+                                  ),
+
+
+                                ],
 
 
                               ),
@@ -449,137 +500,16 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-                              confirmDismiss:
-                                  (direction) async{
-
-
-
-                                return await showDialog<bool>(
-
-
-                                  context:context,
-
-
-                                  builder:
-                                      (context){
-
-
-
-                                    return AlertDialog(
-
-
-                                      title:
-                                      const Text(
-                                          'Delete activity?'
-                                      ),
-
-
-
-                                      content:
-                                      const Text(
-                                          'Confirm delete this activity'
-                                      ),
-
-
-
-
-                                      actions:[
-
-
-
-                                        TextButton(
-
-                                          onPressed:(){
-
-                                            Navigator.pop(
-                                                context,
-                                                false
-                                            );
-
-                                          },
-
-                                          child:
-                                          const Text(
-                                              'Cancel'
-                                          ),
-
-                                        ),
-
-
-
-
-
-                                        TextButton(
-
-                                          onPressed:(){
-
-                                            Navigator.pop(
-                                                context,
-                                                true
-                                            );
-
-                                          },
-
-
-                                          child:
-                                          const Text(
-                                              'Delete'
-                                          ),
-
-                                        ),
-
-
-
-                                      ],
-
-
-                                    );
-
-
-                                      },
-
-
-                                );
-
-
-                              },
-
-
-
-
-
-                              onDismissed:(direction){
-
-
-                                deleteActivity(
-                                  context,
-                                  actItem.id,
-                                );
-
-
-                              },
-
-
-
-
-
-
-                              child:Card(
-
-
+                              child: Card(
 
                                 margin:
                                 const EdgeInsets.symmetric(
-                                    vertical:6
+                                    vertical: 6
                                 ),
 
 
 
-
-
-                                child:ListTile(
-
+                                child: ListTile(
 
 
                                   title:
@@ -599,73 +529,15 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-
                                   subtitle:
                                   Text(
 
                                     actItem.desc,
 
-                                    maxLines:1,
+                                    maxLines: 1,
 
                                     overflow:
                                     TextOverflow.ellipsis,
-
-                                  ),
-
-
-
-
-                                  trailing:
-                                  IconButton(
-
-
-                                    icon:
-                                    const Icon(
-
-                                      Icons.edit,
-
-                                      color:
-                                      Colors.blueGrey,
-
-                                    ),
-
-
-
-                                    onPressed:(){
-
-
-
-                                      Navigator.push(
-
-
-                                        context,
-
-
-                                        MaterialPageRoute(
-
-
-                                          builder:
-                                              (context)=>
-
-                                              ActivityFormScreen(
-
-                                                activity:
-                                                actItem,
-
-                                              ),
-
-
-
-                                        ),
-
-
-
-                                      );
-
-
-                                    },
-
 
                                   ),
 
@@ -677,9 +549,7 @@ class ActivityListScreen extends StatelessWidget {
                               ),
 
 
-
                             );
-
 
 
                           },
@@ -688,15 +558,14 @@ class ActivityListScreen extends StatelessWidget {
                         );
 
 
-
                       },
 
 
                     ),
 
 
-
                   ),
+
 
 
                 ],
@@ -720,11 +589,9 @@ class ActivityListScreen extends StatelessWidget {
 
 
 
-
-      // CREATE FEATURE
       floatingActionButton:
-      FloatingActionButton(
 
+      FloatingActionButton(
 
         child:
         const Icon(
@@ -732,37 +599,26 @@ class ActivityListScreen extends StatelessWidget {
         ),
 
 
-
-        onPressed:(){
-
+        onPressed: () {
 
 
           Navigator.push(
 
-
             context,
-
 
             MaterialPageRoute(
 
-
               builder:
-                  (context)=>
+                  (context) =>
 
                   const ActivityFormScreen(),
 
-
-
             ),
-
-
 
           );
 
 
-
         },
-
 
       ),
 
@@ -770,6 +626,8 @@ class ActivityListScreen extends StatelessWidget {
 
     );
 
+
   }
+
 
 }
