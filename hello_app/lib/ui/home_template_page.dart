@@ -20,7 +20,7 @@ import 'detail_page.dart';
 import 'ActivityListScreen.dart';
 import 'SimplePieChartDemoSol.dart';
 import 'LogDashboardPage.dart';
-
+import 'transaction_dashboard.dart';
 class _MenuItem {
   final IconData icon;
   final String title;
@@ -219,6 +219,14 @@ class _HomeTemplatePageState extends State<HomeTemplatePage> {
       subtitle: 'Firebase server logs distribution',
       color: Colors.redAccent,
       builder: (ctx) => const SimplePieChartDemoSol(),
+    ),
+
+    _MenuItem(
+      icon: Icons.analytics,
+      title: 'Transaction Analytics Dashboard',
+      subtitle: 'Firebase Transaction Report',
+      color: Colors.orange,
+      builder: (ctx) => const TransactionDashboard(),
     ),
 
   ];
