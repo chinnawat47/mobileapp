@@ -8,55 +8,64 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration Detail'),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: theme.colorScheme.onSurface,
       ),
       body: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF8FAFF), Color(0xFFEFF4FF)],
+            colors: theme.brightness == Brightness.dark
+                ? [Colors.indigo.shade900, Colors.black]
+                : [Colors.indigo.shade50, Colors.white],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Center(
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.indigo.shade50,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.person, size: 28, color: Colors.indigo),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.indigo.shade50,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.person, size: 28, color: Colors.indigo),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              '${registration.name} ${registration.surname}',
+                              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          '${registration.name} ${registration.surname}',
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      const SizedBox(height: 24),
+                      _buildInfoRow('Student ID', registration.studentId, Icons.badge_outlined),
+                      _buildInfoRow('Major', registration.major, Icons.school_outlined),
+                      _buildInfoRow('Phone', registration.phone, Icons.phone_outlined),
                     ],
                   ),
-                  const SizedBox(height: 24),
-                  _buildInfoRow('Student ID', registration.studentId, Icons.badge_outlined),
-                  _buildInfoRow('Major', registration.major, Icons.school_outlined),
-                  _buildInfoRow('Phone', registration.phone, Icons.phone_outlined),
-                ],
+                ),
               ),
             ),
           ),
